@@ -1,5 +1,5 @@
 import datetime
-import tinydb # json database
+# import tinydb # json database
 import component.KataPenting
 
 class Tugas():
@@ -72,7 +72,15 @@ class Tugas():
 
     # DITO
     def show_help():
-        pass
+        sHelp = "[Fitur]\n"
+        # for i in range(len()):
+            
+        sHelp += "[Daftar Kata Penting]\n"
+        for i in range(len(component.KataPenting.KataPenting.list_kata_penting)):
+            sHelp += (i + 1) + ". " + component.KataPenting.KataPenting.list_kata_penting[i] + "\n"
+        
+        return sHelp
+
     
     # DITO
     def show_recommendation(raw_string):
@@ -114,6 +122,3 @@ class Tugas():
                 Tugas.list_tugas[i].tanggal = Tugas.parse_tanggal(tanggal_baru)
                 break
     
-                
-                
-
