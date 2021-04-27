@@ -1,0 +1,17 @@
+[
+    {"kw":["deadline","dl","tenggat waktu"], "pre":[], "pos":[]},
+    {"kw":["apa"], "pre":[], "pos":[]},
+    {"kw":["kapan"], "pre":[], "pos":[]},
+    {"kw":["selesai", "sudah"], "pre":[], "pos":[]},
+    {"kw":["antara"], "pre":[], "pos":[]},
+    {"kw":["sekarang"], "pre":[], "pos":[]},
+    {"kw":["saat"], "pre":[], "pos":["ini"]},
+    {"kw":["hari"], "pre":[], "pos":["ini"]},
+    {"kw":["minggu"], "pre":[], "pos":["ini", "depan"]},
+    {"kw":["bulan"], "pre":[], "pos":["ini", "depan"]},
+    {"kw":["minggu"], "pre":["_d+"], "pos":["ke depan"]},
+    {"kw":["bulan"], "pre":["_d+"], "pos":["ke depan"]},
+    {"kw":["ganti"], "pre":[], "pos":[]},
+    {"kw":["ubah"], "pre":[], "pos":[]},
+    {"kw":["undur"], "pre":[], "pos":[]}
+]
