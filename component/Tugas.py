@@ -199,7 +199,7 @@ class Tugas():
         # dengan indeks yang paling dekat dengan deadline / dl / tenggat waktu
         for i in range(len(KataPenting.list_kata_penting)):
             re_task = r""+KataPenting.list_kata_penting[0]+"\s\d+"
-            re_id = r"\d"
+            re_id = r"\d" 
             task_num = re.findall(re_task, raw_string.lower())
             id = re.findall(re_id, task_num[0])
 
