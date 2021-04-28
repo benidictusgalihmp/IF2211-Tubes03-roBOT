@@ -107,6 +107,7 @@ class Tugas():
         # show_help
         help_keyword_exist = is_help_keyword_exist(raw_string)
 
+        print(id_exist, keyword_update)
         # print(task_type, matkul_code, nama_tugas, "pada", list_date[0])
         if help_keyword_exist and not (task_done or id_exist or periode_waktu_exist or deadline_keyword_exist):
             command_type = "show_help"
@@ -138,7 +139,7 @@ class Tugas():
             id = int(l[0])
             for tugas in Tugas.list_tugas:
                 if (int(tugas.id) == int(id)):
-                    exist == True
+                    exist = True
                     break
         return exist
 

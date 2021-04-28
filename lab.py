@@ -3,15 +3,18 @@ from component.KataPenting import KataPenting
 from component.string_match import *
 from component.Tugas import *
 
+t1 = Tugas("asd", "if1232", "Tubes", "engimon")
+# print(t1.id)
+raw_string = "bot bisa apa?"
 
-
-raw_string = "Tubes tugas kEcIL praktikum iF2211 if2210 String Matching    pada 22/04/21"
+# print(findall_tugas_type(raw_string))
 # i = find_date_index_of([22,4,2021], raw_string)
 # print(raw_string[i:])
-s = "1000ababacbabca"
+s = "10000ababacbabca"
+# print(Tugas.is_id_exist(s), Tugas.is_id_exist(raw_string))
 p = "abac"
 i = kmp(s, p)
-print(Tugas.is_id_exist(s))
+print(Tugas.get_command_type(raw_string))
 # print(get_prefixes(s))
 # print(get_suffixes(s[1:]))
 # # ========= get index =========== #
