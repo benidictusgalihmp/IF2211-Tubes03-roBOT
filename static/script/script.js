@@ -1,27 +1,29 @@
-var button = document.getElementById("send");
 var input = document.getElementById("message");
+var form = document.getElementById("myForm");
 var messageBox = document.getElementsByClassName("box").item(0);
-var userBubbleTemplate = document.getElementsByClassName("user").item(0);
-var botBubbleTemplate = document.getElementsByClassName("bot").item(0);
 
-button.addEventListener("click", addResponsesAfterSend);
 input.addEventListener("keyup", addResponsesAfterKeypress);
-
-function addResponsesAfterSend(event) {
-    if (inputLength() > 0) {
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const messageData = new FormData(form);
+    fetch('/', {
+        method: 'GET',
+        body: messageData,
+    }).then(function(response) {
+        console.log(response);
+        console.log(getResponse());
         createMsgBubble("user");
         createMsgBubble("bot");
         input.value = "";
         messageBox.scrollTop = messageBox.scrollHeight;
-    }
-}
+    });
+});
+
 
 function addResponsesAfterKeypress(event) {
     if (inputLength() > 0 && (event.keycode === 13 || event.key === "Enter")) {
-        createMsgBubble("user");
-        createMsgBubble("bot");
-        input.value = "";
-        messageBox.scrollTop = messageBox.scrollHeight;
+        event.preventDefault();
+        form.dispatchEvent(new Event('submit'));
     }
 }
 
@@ -35,12 +37,12 @@ function createMsgBubble(type) {
     if (type == "user") {
         var textContent = document.createTextNode(input.value);
 
-        img.src = "image/user.png";
+        img.src = "static/images/user.png";
         messageBubble.classList.add("user");
     } else if (type == "bot") {
-        var textContent = document.createTextNode("placeholder");
+        var textContent = document.createTextNode(getResponse());
 
-        img.src = "image/robot.png";
+        img.src = "static/images/robot.png"
         messageBubble.classList.add("bot");
     }
 
@@ -48,6 +50,10 @@ function createMsgBubble(type) {
     messageBubble.appendChild(img);
     messageBubble.appendChild(text);
     messageBox.appendChild(messageBubble);
+}
+
+function getResponse() {
+    return getresponse;
 }
 
 function inputLength() {
