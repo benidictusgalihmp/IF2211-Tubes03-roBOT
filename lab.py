@@ -1,12 +1,19 @@
 import re
 from component.KataPenting import KataPenting
 from component.string_match import *
+from component.Tugas import *
+
 
 
 raw_string = "Tubes tugas kEcIL praktikum iF2211 if2210 String Matching    pada 22/04/21"
-s = "foobar"
-print(get_prefixes(s))
-print(get_suffixes(s[1:]))
+# i = find_date_index_of([22,4,2021], raw_string)
+# print(raw_string[i:])
+s = "1000ababacbabca"
+p = "abac"
+i = kmp(s, p)
+print(Tugas.is_id_exist(s))
+# print(get_prefixes(s))
+# print(get_suffixes(s[1:]))
 # # ========= get index =========== #
 # keyword = "praktikum"
 # key = keyword.lower()

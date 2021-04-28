@@ -14,8 +14,41 @@ def last_occurence(s):
     # print(lo)
     return lo
 
+def get_border_table(pattern):
+    k = 0
+    border_table = []
+    while (k < len(pattern)-1):
+        pf = get_prefixes(pattern[0:k+1])
+        sf = get_suffixes(pattern[1:k+1])
+        x = 0
+        fail_k = 0
+        while x < len(sf):
+            if pf[x] == sf[x]:
+                fail_k = x+1
+            x+=1
+        border_table.append(fail_k)
+        k+=1
+    return border_table
+
+
 def kmp(text,pattern):
     x=-1
+    n = len(text)
+    m = len(pattern)
+    border_table = get_border_table(pattern) 
+    i=0 # index text
+    j=0 # index pattern
+    while (i<n):
+        if text[i] == pattern[j]:
+            if j == m-1:
+                return i - m + 1
+            i+=1
+            j+=1
+        elif j>0:
+            j=border_table[j-1]
+        else:
+            i+=1
+            
     return x
 
 def boyer_moore(text,pattern):
