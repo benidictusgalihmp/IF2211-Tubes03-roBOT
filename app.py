@@ -28,16 +28,15 @@ def home():
         data = request.form.to_dict()
         message = data["message"].strip()
         print(message)
-        return render_template("index.html", response=message)
+        return render_template("index.html", response="message")
     else:
         return render_template("index.html", response="no message")
 
-@app.route("/message")
-def message():
-    return render_template("index.html")
-
-def test():
-    return random.randint(3,9)
+@app.route("/message", methods=['GET'])
+def getmessage():
+    data = request.form.to_dict()
+    print(data)
+    return data
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -7,11 +7,11 @@ form.addEventListener('submit', function(event) {
     event.preventDefault();
     const messageData = new FormData(form);
     fetch('/', {
-        method: 'GET',
+        method: 'POST',
         body: messageData,
     }).then(function(response) {
         console.log(response);
-        console.log(getResponse());
+        // console.log(getResponse());
         createMsgBubble("user");
         createMsgBubble("bot");
         input.value = "";
