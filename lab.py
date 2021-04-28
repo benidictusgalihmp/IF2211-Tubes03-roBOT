@@ -4,9 +4,12 @@ from component.string_match import *
 
 
 raw_string = "Tubes tugas kEcIL praktikum iF2211 if2210 String Matching    pada 22/04/21"
-s = "foobar"
-print(get_prefixes(s))
-print(get_suffixes(s[1:]))
+s = "ababacbabca"
+p = "abac"
+i = kmp(s, p)
+print(i, "~", s[i:i+len(p)])
+# print(get_prefixes(s))
+# print(get_suffixes(s[1:]))
 # # ========= get index =========== #
 # keyword = "praktikum"
 # key = keyword.lower()
