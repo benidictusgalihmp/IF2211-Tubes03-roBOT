@@ -6,7 +6,7 @@ from component.helper import *
 
 
 class Tugas():
-    num = 0 # diincrement setiap membuat tugas baru
+    num = 11110 # diincrement setiap membuat tugas baru
 
     # list_tugas: berisi instance tugas-tugas yang belum selesai
     # 
@@ -83,15 +83,46 @@ class Tugas():
     # NAUFAL
     def get_command_type(raw_string):
         command_type = ""
+
+        # add_task
         list_date = findall_date(raw_string)
-        task_type = find_first_tugas_type(raw_string)
+        task_type = find_first_tugas_type(raw_string).lower()
         matkul_code = find_first_matkul_code(raw_string)
-        print(task_type, matkul_code, "pada", list_date[0])
+        nama_tugas = find_nama_tugas(raw_string)
 
+        # show_task
+        #show_deadline
+        deadline_keyword_exist = is_dl_keyword_exist(raw_string)
+        periode_waktu_exist = is_waktu_exist(raw_string)
+        if len(list_date) > 1:
+            periode_waktu_exist= True
+        
+        # update task
+        id_exist = Tugas.is_id_exist(raw_string)
+        keyword_update = find_keyword_update_task(raw_string)
+        
+        # mark_as_done
+        task_done = is_task_done_exist(raw_string)
 
+        # show_help
+        help_keyword_exist = is_help_keyword_exist(raw_string)
+
+        # print(task_type, matkul_code, nama_tugas, "pada", list_date[0])
+        if help_keyword_exist and not (task_done or id_exist or periode_waktu_exist or deadline_keyword_exist):
+            command_type = "show_help"
+        elif id_exist and task_done:
+            command_type = "mark_as_done"
+        elif id_exist and len(keyword_update) > 0:
+            command_type = "update_task"
+        elif len(list_date) > 0 and len(matkul_code) > 0 and len(task_type) > 0 and len(nama_tugas) > 0 and not deadline_keyword_exist:
+            command_type = "add_task"
+        elif deadline_keyword_exist and len(task_type) > 0 and (task_type == "tugas" or task_type == "tubes" or task_type == "tucil"):
+            command_type = "show_deadline"
+        elif deadline_keyword_exist or periode_waktu_exist or len(task_type) > 0:
+            command_type = "show_task"
+        
         return command_type
-        pass
-    
+        
     # NAUFAL
     def get_error_message():
         pass
@@ -99,7 +130,17 @@ class Tugas():
     # =~ END SPF --- 
 
 
-
+    def is_id_exist(raw_string):
+        exist = False
+        reg = r"\d{5,}"
+        l = re.findall(reg, raw_string)
+        if len(l)>0:
+            id = int(l[0])
+            for tugas in Tugas.list_tugas:
+                if (int(tugas.id) == int(id)):
+                    exist == True
+                    break
+        return exist
 
 
     # NOT DONE
