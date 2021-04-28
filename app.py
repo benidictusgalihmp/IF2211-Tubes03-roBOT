@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+import random
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -27,7 +28,16 @@ def home():
         data = request.form.to_dict()
         message = data["message"].strip()
         print(message)
+        return render_template("index.html", response=message)
+    else:
+        return render_template("index.html", response="no message")
+
+@app.route("/message")
+def message():
     return render_template("index.html")
+
+def test():
+    return random.randint(3,9)
 
 if __name__ == "__main__":
     app.run(debug=True)
