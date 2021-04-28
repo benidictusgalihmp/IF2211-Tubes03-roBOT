@@ -7,8 +7,17 @@ import re
 from component.KataPenting import KataPenting
 from component.helper import *
 
+import pickle
+
+DBFILE = "./db.pkl"
+
 
 class Tugas():
+    def first_init():
+        with open(DBFILE, "wb") as db:
+            pickle.dump([], db)
+
+
     num = 11110 # diincrement setiap membuat tugas baru
 
     # list_tugas: berisi instance tugas-tugas yang belum selesai
@@ -29,6 +38,10 @@ class Tugas():
     
     # Tugas.parse(raw_string): fungsi ini dipanggil oleh flask. -> String hasil yang siap ditampilkan ke Frontend
     def parse(raw_string):
+        with open(DBFILE, "rb") as db:
+            var = db.read()
+            Tugas.list_tugas = pickle.loads(var)
+
         result = ""
         command_type = Tugas.get_command_type(raw_string)
 
@@ -48,6 +61,10 @@ class Tugas():
             result = Tugas.show_recommendation(raw_string)
         else:
             result = Tugas.get_error_message()
+
+        with open(DBFILE, "wb") as db:
+            pickle.dump(Tugas.list_tugas, db)
+        
         return result
 
 
@@ -89,7 +106,7 @@ class Tugas():
         data3 = ["3", [28,4,2021], "IF2230", "Praktikum", "String matching"]
         data4 = ["4", [12,7,2021], "MA9090", "Tucil", "String matching"]
         data5 = ["5", [28,7,2021], "MA2121", "Ujian", "String matching"]
-        db = [data1, data2,data3,data4,data5]
+        db = [data1, data2,data3]
 
         if (re.search("antara", raw_string) and (re.search("hingga", raw_string) or re.search("sampai", raw_string) or re.search("dan", raw_string))):
             print("antara")
@@ -113,9 +130,9 @@ class Tugas():
             for row in db:
                 if (row[1][1] == time_now.month and row[1][2] == time_now.year):
                     stask.append(row)
-        elif (re.search("\d+\shari ke depan", raw_string)):
+        elif (re.search("\d+\s\shari ke depan", raw_string)):
             print("n hari")
-            s_hari = re.findall("\d+\shari ke depan", raw_string)
+            s_hari = re.findall("\d+\s\shari ke depan", raw_string)
             print(s_hari[0])
             num_hari = re.findall("\d+", s_hari[0])
             print(num_hari[0])
@@ -129,14 +146,14 @@ class Tugas():
                     stask.append(row)
                 # if (time_n_days.day >= row[1][0] or time_n_days.month >= row[1][1] or time_n_days.year >= row[1][2]):
                 #     stask.append(row)
-        elif (re.search("\d+\sminggu ke depan", raw_string)):
+        elif (re.search("\d+\s\sminggu ke depan", raw_string)):
             print("n minggu")
-            s_minggu = re.findall("\d+\sminggu ke depan", raw_string)
+            s_minggu = re.findall("\d+\s\sminggu ke depan", raw_string)
             print(s_minggu[0])
             num_minggu = re.findall("\d+", s_minggu[0])
             print(num_minggu[0])
 
-            time_n_weeks = time_now + timedelta(weeks=int(num_minggu[0]))
+            time_n_weeks = time_now + timedelta(months=int(num_minggu[0]))
             for row in db:
                 t_date = datetime.date(row[1][2], row[1][1], row[1][0])
 
@@ -144,13 +161,13 @@ class Tugas():
                     stask.append(row)
                 # if (time_n_weeks.day >= row[1][0] or time_n_weeks.month >= row[1][1] or time_n_weeks.year >= row[1][2]):
                 #     stask.append(row)
-        elif (re.search("\d+\sbulan ke depan", raw_string)):
-            s_bulan = re.findall("\d+\sbulan ke depan", raw_string)
+        elif (re.search("\d+\s\sbulan ke depan", raw_string)):
+            s_bulan = re.findall("\d+\s\sbulan ke depan", raw_string)
             print(s_bulan[0])
             num_bulan = re.findall("\d+", s_bulan[0])
             print(num_bulan[0])
 
-            time_n_months = time_now + timedelta(weeks=(4*int(num_bulan[0])))
+            time_n_months = time_now + timedelta(months=int(num_bulan[0]))
             for row in db:
                 t_date = datetime.date(row[1][2], row[1][1], row[1][0])
 
@@ -193,6 +210,7 @@ class Tugas():
         matkul_code = find_first_matkul_code(raw_string).upper()
         response = ""
         for tugas in Tugas.list_tugas:
+            print(tugas)
             if (tugas.code).upper() == matkul_code:
                 response += str(tugas.date.day) +"/"+ str(tugas.date.month) +"/"+ str(tugas.date.year) + "\n"
         if response == "":
@@ -221,15 +239,13 @@ class Tugas():
  
         # unfixed butuh pencarian KataPenting.list_kata_penting[0] 
         # dengan indeks yang paling dekat dengan deadline / dl / tenggat waktu
-        for i in range(len(KataPenting.list_kata_penting)):
-            re_task = r""+KataPenting.list_kata_penting[0]+"\s\d+"
-            re_id = r"\d"
-            task_num = re.findall(re_task, raw_string.lower())
-            id = re.findall(re_id, task_num[0])
+        re_task = r""+KataPenting.list_kata_penting[0]+"\s\d+"
+        re_id = r"\d"
 
         # unfixed butuh tanggal perubahan setelah kata menjadi / tanggal
         tggl = datetime.date(2030, 5, 12)
-        
+        task_num = re.findall(re_task, raw_string.lower())
+        id = re.findall(re_id, task_num[0])
         time_now = datetime.date.today()
 
         # jika tanggal deadline baru sebelum tanggal saat ini
