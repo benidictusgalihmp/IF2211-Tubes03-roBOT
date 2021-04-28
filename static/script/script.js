@@ -5,17 +5,21 @@ var messageBox = document.getElementsByClassName("box").item(0);
 input.addEventListener("keyup", addResponsesAfterKeypress);
 form.addEventListener('submit', function(event) {
     event.preventDefault();
-    const messageData = new FormData(form);
-    fetch('/', {
-        method: 'POST',
-        body: messageData,
-    }).then(function(response) {
-        console.log(response);
-        // console.log(getResponse());
-        createMsgBubble("user");
-        createMsgBubble("bot");
-        input.value = "";
-        messageBox.scrollTop = messageBox.scrollHeight;
+    var text = input.value
+    // console.log(text);
+    $.ajax({
+        url: "/message",
+        type: "get",
+        data: {jsdata: text},
+        success: function(response) {
+            createMsgBubble("user", "");
+            createMsgBubble("bot", response);
+            input.value = "";
+            messageBox.scrollTop = messageBox.scrollHeight;
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+        }
     });
 });
 
@@ -27,7 +31,7 @@ function addResponsesAfterKeypress(event) {
     }
 }
 
-function createMsgBubble(type) {
+function createMsgBubble(type, response) {
     var messageBubble = document.createElement("div");
     var img = document.createElement("img");
     var text = document.createElement("p");
@@ -40,7 +44,7 @@ function createMsgBubble(type) {
         img.src = "static/images/user.png";
         messageBubble.classList.add("user");
     } else if (type == "bot") {
-        var textContent = document.createTextNode(getResponse());
+        var textContent = document.createTextNode(response);
 
         img.src = "static/images/robot.png"
         messageBubble.classList.add("bot");

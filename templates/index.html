@@ -11,28 +11,28 @@
     <div class="bubble bot">
         <img src="static/images/robot.png" alt="">
         <p class="text">
-            Masukkan perintah untuk mencatat tugas milikmu
+            Halo! namaku adalah roBOT, silahkan masukkan perintah untuk mengatur tugas yang gaada habisnya
         </p>
     </div>
     <div class="bubble user">
         <img src="static/images/user.png" alt="">
         <p class="text">
-            Tubes IF2211 String Matching pada 14 April 2021
+            Gamau :(
         </p>
     </div>
     <div class="bubble bot">
         <img src="static/images/robot.png" alt="">
         <p class="text">
-            Maaf, perintah yang kamu masukkan tidak dikenali
+            Yuk bisa yuk
         </p>
     </div>
 </div>
-<form method="POST" id="myForm" name="myForm">
+<form method="GET" id="myForm" name="myForm">
     <textarea name="message" id="message" cols="30" rows="10" placeholder="Masukkan perintah di sini" form="myForm"></textarea>
 </form>
 <script type="text/javascript">
     var getresponse = "{{ response }}"
-    console.log(getresponse)
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="static/script/script.js"></script>
 {% endblock %}

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from os import path
-import random
+from component.Tugas import *
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -22,21 +22,18 @@ if not path.exists(DB_NAME):
     db.create_all(app=app)
     print("create db")
 
-@app.route("/", methods=['POST', 'GET'])
+@app.route("/")
 def home():
-    if request.method == 'POST':
-        data = request.form.to_dict()
-        message = data["message"].strip()
-        print(message)
-        return render_template("index.html", response="message")
-    else:
-        return render_template("index.html", response="no message")
+    return render_template("index.html", response="no message")
 
 @app.route("/message", methods=['GET'])
 def getmessage():
-    data = request.form.to_dict()
-    print(data)
-    return data
+    data = request.args
+    message = data.get('jsdata').strip()
+    response = Tugas.parse(message)
+    if response is None:
+        response = "Maaf, pesan tidak dikenali"
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True)

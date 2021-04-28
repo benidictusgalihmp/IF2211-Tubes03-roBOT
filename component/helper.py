@@ -84,6 +84,7 @@ def findall_date(raw_string):
         # else:
         #     print("")
     return list_date
+    
 
 def findall_tugas_type(raw_string):
     list_kata = raw_string.lower().split(' ')
