@@ -7,6 +7,9 @@ import re
 from component.KataPenting import KataPenting
 from component.helper import *
 
+DBPATH = './db.pkl'
+
+import pickle
 
 class Tugas():
     num = 11110 # diincrement setiap membuat tugas baru
@@ -29,6 +32,10 @@ class Tugas():
     
     # Tugas.parse(raw_string): fungsi ini dipanggil oleh flask. -> String hasil yang siap ditampilkan ke Frontend
     def parse(raw_string):
+        with open(DBPATH, "rb") as db:
+            var = db.read()
+            Tugas.list_tugas = pickle.loads(var)
+
         result = ""
         command_type = Tugas.get_command_type(raw_string)
 
@@ -48,6 +55,10 @@ class Tugas():
             result = Tugas.show_recommendation(raw_string)
         else:
             result = Tugas.get_error_message()
+        
+
+        with open(DBPATH, "wb") as db:
+            pickle.dump(Tugas.list_tugas, db)
         return result
 
 
