@@ -168,7 +168,7 @@ class Tugas():
         
     # NAUFAL
     def get_error_message():
-        pass
+        return "Maaf, pesan tidak dikenali"
 
     # =~ END SPF --- 
 
