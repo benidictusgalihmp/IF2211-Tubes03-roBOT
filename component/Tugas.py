@@ -1,5 +1,6 @@
 import datetime
-from dateutil.relativedelta import relativedelta
+from datetime import timedelta
+from datetime import date
 
 # import tinydb # json database
 import re
@@ -63,7 +64,7 @@ class Tugas():
     # 
     def show_undone_task(raw_string):
         # local time right now
-        time_now = datetime.date.today()
+        time_now = date.today()
         stask = []
         id = 1
 
@@ -75,7 +76,6 @@ class Tugas():
         data5 = ["5", [28,7,2021], "MA2121", "Ujian", "String matching"]
         db = [data1, data2,data3]
 
-        time_now = datetime.date.today()
         if (re.search("antara", raw_string) and (re.search("hingga", raw_string) or re.search("sampai", raw_string) or re.search("dan", raw_string))):
             print("antara")
             l_tgl = findall_date(raw_string)
@@ -84,8 +84,7 @@ class Tugas():
             
             for row in db:
                 t_date = datetime.date(row[1][2], row[1][1], row[1][0])
-                
-                if (time_now >= c_first_tgl and time_now <= c_second_tgl):
+                if (t_date >= c_first_tgl and t_date <= c_second_tgl):
                     stask.append(row)
                 # if ((row[1][0] >= l_tgl[0][0] and row[1][0] <= l_tgl[1][0]) or row[1][1] >= l_tgl[0][1] or row[1][2] >= l_tgl[0][2]) and (row[1][0] <= l_tgl[1][0] or row[1][1] <= l_tgl[1][1] or row[1][2] <= l_tgl[1][2])):
                 #     stask.append(row)
@@ -102,10 +101,12 @@ class Tugas():
         elif (re.search("\d+\s\shari ke depan", raw_string)):
             print("n hari")
             s_hari = re.findall("\d+\s\shari ke depan", raw_string)
-            num_hari = re.findall("\d+", s_hari)
+            print(s_hari[0])
+            num_hari = re.findall("\d+", s_hari[0])
+            print(num_hari[0])
             
-            time_n_days = time_now + relativedelta(days=+num_hari)
-            print(time_n_days)
+            time_n_days = time_now + timedelta(days=int(num_hari[0]))
+            
             for row in db:
                 t_date = datetime.date(row[1][2], row[1][1], row[1][0])
                 
@@ -116,9 +117,11 @@ class Tugas():
         elif (re.search("\d+\s\sminggu ke depan", raw_string)):
             print("n minggu")
             s_minggu = re.findall("\d+\s\sminggu ke depan", raw_string)
-            num_minggu = re.findall("\d+", s_minggu)
+            print(s_minggu[0])
+            num_minggu = re.findall("\d+", s_minggu[0])
+            print(num_minggu[0])
 
-            time_n_weeks = time_now + relativedelta(months=+num_minggu)
+            time_n_weeks = time_now + timedelta(months=int(num_minggu[0]))
             for row in db:
                 t_date = datetime.date(row[1][2], row[1][1], row[1][0])
 
@@ -127,11 +130,12 @@ class Tugas():
                 # if (time_n_weeks.day >= row[1][0] or time_n_weeks.month >= row[1][1] or time_n_weeks.year >= row[1][2]):
                 #     stask.append(row)
         elif (re.search("\d+\s\sbulan ke depan", raw_string)):
-            print("n bulan")
             s_bulan = re.findall("\d+\s\sbulan ke depan", raw_string)
-            num_bulan = re.findall("\d+", s_bulan)
+            print(s_bulan[0])
+            num_bulan = re.findall("\d+", s_bulan[0])
+            print(num_bulan[0])
 
-            time_n_months = time_now + relativedelta(months=+num_bulan)
+            time_n_months = time_now + timedelta(months=int(num_bulan[0]))
             for row in db:
                 t_date = datetime.date(row[1][2], row[1][1], row[1][0])
 
