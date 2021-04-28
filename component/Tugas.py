@@ -15,7 +15,7 @@ class Tugas():
         Tugas.num += 1
         self.id = int(Tugas.num)
         self.date = Tugas.parse_tanggal(tanggal) # tipe: date
-        self.code = kode_matkul # string
+        self.code = str(kode_matkul).upper() # string
         self.type = jenis_tugas # string, diambil dari kata penting
         self.topic = topik_tugas # string
         
@@ -27,24 +27,24 @@ class Tugas():
     # Tugas.parse(raw_string): fungsi ini dipanggil oleh flask. -> String hasil yang siap ditampilkan ke Frontend
     def parse(raw_string):
         result = ""
-        command_type = get_command_type(raw_string)
+        command_type = Tugas.get_command_type(raw_string)
 
         if command_type == "add_task":
-            result = add_task(raw_string)
+            result = Tugas.add_task(raw_string)
         elif command_type == "show_task":
-            result = show_undone_task(raw_string)
+            result = Tugas.show_undone_task(raw_string)
         elif command_type == "show_deadline":
-            result = show_deadline(raw_string)
+            result = Tugas.show_deadline(raw_string)
         elif command_type == "update_task":
-            result = update_task(raw_string)
+            result = Tugas.update_task(raw_string)
         elif command_type == "mark_as_done":
-            result = mark_as_done(raw_string)
+            result = Tugas.mark_as_done(raw_string)
         elif command_type == "show_help":
-            result = show_help()
+            result = Tugas.show_help()
         elif command_type == "show_recommendation":
-            result = show_recommendation(raw_string)
+            result = Tugas.show_recommendation(raw_string)
         else:
-            result = get_error_message()
+            result = Tugas.get_error_message()
         return result
 
 
@@ -54,7 +54,22 @@ class Tugas():
 
     # NAUFAL
     def add_task(raw_string):
-        pass
+        # REQs
+        # |- 1 tanggal (first)
+        # |- 1 kode matkul (first)
+        # |- 1 jenis tugas
+        # |- 1 topik tugas 
+
+        list_date = findall_date(raw_string)
+        date = list_date[0]
+        task_type = find_first_tugas_type(raw_string).lower()
+        matkul_code = find_first_matkul_code(raw_string)
+        nama_tugas = find_nama_tugas(raw_string)
+        t = Tugas(date, matkul_code, task_type, nama_tugas)
+
+        response = "[TASK BERHASIL DICATAT]\n(ID: %d) %d/%d/%d - %s - %s - %s"%(t.id, t.date.day, t.date.month, t.date.year, t.code, t.type, t.topic)
+
+        return response
     
     # DITO
     def show_undone_task(raw_string):
@@ -144,13 +159,9 @@ class Tugas():
         return exist
 
 
-    # NOT DONE
-    def parse_tanggal(raw_string):
-        date_in_list = raw_string.split('/')
-
-        
-
-        return # date object
+    # DONE
+    def parse_tanggal(tanggal):
+        return datetime.date(tanggal[2], tanggal[1], tanggal[0])
 
     # DONE
     def set_selesai(id_tugas):

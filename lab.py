@@ -3,10 +3,10 @@ from component.KataPenting import KataPenting
 from component.string_match import *
 from component.Tugas import *
 
-t1 = Tugas("asd", "if1232", "Tubes", "engimon")
-# print(t1.id)
-raw_string = "bot bisa apa?"
-
+# t1 = Tugas([22,4,2021], "if1232", "Tubes", "engimon")
+# print(t1.code)
+raw_string = "halo bot, tolong ingetin kalau ada kuis IF3110 Bab 2 sampai 3 pada 22/04/21"
+print(Tugas.parse(raw_string))
 # print(findall_tugas_type(raw_string))
 # i = find_date_index_of([22,4,2021], raw_string)
 # print(raw_string[i:])
@@ -14,7 +14,7 @@ s = "10000ababacbabca"
 # print(Tugas.is_id_exist(s), Tugas.is_id_exist(raw_string))
 p = "abac"
 i = kmp(s, p)
-print(Tugas.get_command_type(raw_string))
+# print(Tugas.get_command_type(raw_string))
 # print(get_prefixes(s))
 # print(get_suffixes(s[1:]))
 # # ========= get index =========== #
