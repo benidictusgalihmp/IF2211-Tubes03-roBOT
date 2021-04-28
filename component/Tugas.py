@@ -52,7 +52,7 @@ class Tugas():
     # string processing functions 
     # ========================== #
 
-    # NAUFAL
+    # NAUFAL DONE
     def add_task(raw_string):
         # REQs
         # |- 1 tanggal (first)
@@ -77,7 +77,16 @@ class Tugas():
 
     # NAUFAL
     def show_deadline(raw_string):
-        pass
+        matkul_code = find_first_matkul_code(raw_string).upper()
+        response = ""
+        for tugas in Tugas.list_tugas:
+            if (tugas.code).upper() == matkul_code:
+                response += str(tugas.date.day) +"/"+ str(tugas.date.month) +"/"+ str(tugas.date.year) + "\n"
+        if response == "":
+            response = "[TIDAK ADA TUGAS UNTUK MATA KULIAH %s]"%(matkul_code)
+        else:
+            response = response[:-1]
+        return response
 
     # DITO
     def update_task(raw_string):
@@ -85,7 +94,24 @@ class Tugas():
 
     # NAUFAL
     def mark_as_done(raw_string):
-        pass
+        all_id = Tugas.findall_id(raw_string)
+        sukses = False
+        success_id = []
+        for tugas in Tugas.list_tugas:
+            for i in all_id:
+                if int(tugas.id) == int(i) and tugas.is_done == False:
+                    sukses = True
+                    tugas.is_done = True
+                    success_id.append(str(tugas.id))
+        response = ""
+        if sukses:
+            for si in success_id:
+                response += "Tugas (ID: %s) telah diselesaikan\n"%(str(si))
+            response = response[:-1]
+        else:
+            response = "[TIDAK ADA TUGAS DENGAN ID YANG DIMAKSUD]"
+        return response
+
 
     # DITO
     def show_help():
@@ -114,6 +140,7 @@ class Tugas():
         
         # update task
         id_exist = Tugas.is_id_exist(raw_string)
+        id_valid = Tugas.is_id_valid(raw_string)
         keyword_update = find_keyword_update_task(raw_string)
         
         # mark_as_done
@@ -122,17 +149,17 @@ class Tugas():
         # show_help
         help_keyword_exist = is_help_keyword_exist(raw_string)
 
-        print(id_exist, keyword_update)
+        # print(id_exist, task)
         # print(task_type, matkul_code, nama_tugas, "pada", list_date[0])
         if help_keyword_exist and not (task_done or id_exist or periode_waktu_exist or deadline_keyword_exist):
             command_type = "show_help"
-        elif id_exist and task_done:
+        elif id_valid and task_done:
             command_type = "mark_as_done"
         elif id_exist and len(keyword_update) > 0:
             command_type = "update_task"
         elif len(list_date) > 0 and len(matkul_code) > 0 and len(task_type) > 0 and len(nama_tugas) > 0 and not deadline_keyword_exist:
             command_type = "add_task"
-        elif deadline_keyword_exist and len(task_type) > 0 and (task_type == "tugas" or task_type == "tubes" or task_type == "tucil"):
+        elif deadline_keyword_exist and len(matkul_code) > 0 and (task_type == "tugas" or task_type == "tubes" or task_type == "tucil"):
             command_type = "show_deadline"
         elif deadline_keyword_exist or periode_waktu_exist or len(task_type) > 0:
             command_type = "show_task"
@@ -145,6 +172,12 @@ class Tugas():
 
     # =~ END SPF --- 
 
+    def findall_id(raw_string):
+        reg = r"\d{5,}"
+        all_id = re.findall(reg, raw_string)
+        for i in range(len(all_id)):
+            all_id[i] = int(all_id[i])
+        return all_id
 
     def is_id_exist(raw_string):
         exist = False
@@ -157,6 +190,14 @@ class Tugas():
                     exist = True
                     break
         return exist
+
+    def is_id_valid(raw_string):
+        valid = False
+        reg = r"\d{5,}"
+        l = re.findall(reg, raw_string)
+        if len(l) > 0:
+            valid = True
+        return valid
 
 
     # DONE

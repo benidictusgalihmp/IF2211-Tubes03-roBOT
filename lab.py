@@ -7,6 +7,13 @@ from component.Tugas import *
 # print(t1.code)
 raw_string = "halo bot, tolong ingetin kalau ada kuis IF3110 Bab 2 sampai 3 pada 22/04/21"
 print(Tugas.parse(raw_string))
+s2 = "Deadline tugas IF2210 itu kapan?"
+print(Tugas.parse(s2))
+print(Tugas.parse("Saya sudah selesai mengerjakan task 11111"))
+
+
+
+
 # print(findall_tugas_type(raw_string))
 # i = find_date_index_of([22,4,2021], raw_string)
 # print(raw_string[i:])
