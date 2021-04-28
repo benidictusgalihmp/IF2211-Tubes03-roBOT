@@ -1,6 +1,9 @@
 import datetime
 import tinydb # json database
-import component.KataPenting
+import re
+from component.KataPenting import KataPenting
+from component.helper import *
+
 
 class Tugas():
     num = 0 # diincrement setiap membuat tugas baru
@@ -9,7 +12,6 @@ class Tugas():
     # 
     list_tugas = []
     def __init__(self, tanggal, kode_matkul, jenis_tugas, topik_tugas):
-
         Tugas.num += 1
         self.id = int(Tugas.num)
         self.date = Tugas.parse_tanggal(tanggal) # tipe: date
@@ -80,6 +82,14 @@ class Tugas():
     
     # NAUFAL
     def get_command_type(raw_string):
+        command_type = ""
+        list_date = findall_date(raw_string)
+        task_type = find_first_tugas_type(raw_string)
+        matkul_code = find_first_matkul_code(raw_string)
+        print(task_type, matkul_code, "pada", list_date[0])
+
+
+        return command_type
         pass
     
     # NAUFAL
