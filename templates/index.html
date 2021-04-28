@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+{% block title %}
+    roBOT
+{% endblock %}
+{% block content %}
+<div class = "header">
+    <h1>{{response}}</h1>
+    <h2>Your Personal Assistant</h2>
+</div>
+<div class="box center">
+    <div class="bubble bot">
+        <img src="static/images/robot.png" alt="">
+        <p class="text">
+            Masukkan perintah untuk mencatat tugas milikmu
+        </p>
+    </div>
+    <div class="bubble user">
+        <img src="static/images/user.png" alt="">
+        <p class="text">
+            Tubes IF2211 String Matching pada 14 April 2021
+        </p>
+    </div>
+    <div class="bubble bot">
+        <img src="static/images/robot.png" alt="">
+        <p class="text">
+            Maaf, perintah yang kamu masukkan tidak dikenali
+        </p>
+    </div>
+</div>
+<form method="GET" id="myForm" name="myForm">
+    <textarea name="message" id="message" cols="30" rows="10" placeholder="Masukkan perintah di sini" form="myForm"></textarea>
+</form>
+<script type="text/javascript">
+    var getresponse = "{{ response }}"
+    console.log(getresponse)
+</script>
+<script type="text/javascript" src="static/script/script.js"></script>
+{% endblock %}
