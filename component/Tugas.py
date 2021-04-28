@@ -89,7 +89,7 @@ class Tugas():
         data3 = ["3", [28,4,2021], "IF2230", "Praktikum", "String matching"]
         data4 = ["4", [12,7,2021], "MA9090", "Tucil", "String matching"]
         data5 = ["5", [28,7,2021], "MA2121", "Ujian", "String matching"]
-        db = [data1, data2,data3]
+        db = [data1, data2,data3,data4,data5]
 
         if (re.search("antara", raw_string) and (re.search("hingga", raw_string) or re.search("sampai", raw_string) or re.search("dan", raw_string))):
             print("antara")
@@ -113,9 +113,9 @@ class Tugas():
             for row in db:
                 if (row[1][1] == time_now.month and row[1][2] == time_now.year):
                     stask.append(row)
-        elif (re.search("\d+\s\shari ke depan", raw_string)):
+        elif (re.search("\d+\shari ke depan", raw_string)):
             print("n hari")
-            s_hari = re.findall("\d+\s\shari ke depan", raw_string)
+            s_hari = re.findall("\d+\shari ke depan", raw_string)
             print(s_hari[0])
             num_hari = re.findall("\d+", s_hari[0])
             print(num_hari[0])
@@ -129,14 +129,14 @@ class Tugas():
                     stask.append(row)
                 # if (time_n_days.day >= row[1][0] or time_n_days.month >= row[1][1] or time_n_days.year >= row[1][2]):
                 #     stask.append(row)
-        elif (re.search("\d+\s\sminggu ke depan", raw_string)):
+        elif (re.search("\d+\sminggu ke depan", raw_string)):
             print("n minggu")
-            s_minggu = re.findall("\d+\s\sminggu ke depan", raw_string)
+            s_minggu = re.findall("\d+\sminggu ke depan", raw_string)
             print(s_minggu[0])
             num_minggu = re.findall("\d+", s_minggu[0])
             print(num_minggu[0])
 
-            time_n_weeks = time_now + timedelta(months=int(num_minggu[0]))
+            time_n_weeks = time_now + timedelta(weeks=int(num_minggu[0]))
             for row in db:
                 t_date = datetime.date(row[1][2], row[1][1], row[1][0])
 
@@ -144,13 +144,13 @@ class Tugas():
                     stask.append(row)
                 # if (time_n_weeks.day >= row[1][0] or time_n_weeks.month >= row[1][1] or time_n_weeks.year >= row[1][2]):
                 #     stask.append(row)
-        elif (re.search("\d+\s\sbulan ke depan", raw_string)):
-            s_bulan = re.findall("\d+\s\sbulan ke depan", raw_string)
+        elif (re.search("\d+\sbulan ke depan", raw_string)):
+            s_bulan = re.findall("\d+\sbulan ke depan", raw_string)
             print(s_bulan[0])
             num_bulan = re.findall("\d+", s_bulan[0])
             print(num_bulan[0])
 
-            time_n_months = time_now + timedelta(months=int(num_bulan[0]))
+            time_n_months = time_now + timedelta(weeks=(4*int(num_bulan[0])))
             for row in db:
                 t_date = datetime.date(row[1][2], row[1][1], row[1][0])
 
@@ -221,13 +221,15 @@ class Tugas():
  
         # unfixed butuh pencarian KataPenting.list_kata_penting[0] 
         # dengan indeks yang paling dekat dengan deadline / dl / tenggat waktu
-        re_task = r""+KataPenting.list_kata_penting[0]+"\s\d+"
-        re_id = r"\d"
+        for i in range(len(KataPenting.list_kata_penting)):
+            re_task = r""+KataPenting.list_kata_penting[0]+"\s\d+"
+            re_id = r"\d"
+            task_num = re.findall(re_task, raw_string.lower())
+            id = re.findall(re_id, task_num[0])
 
         # unfixed butuh tanggal perubahan setelah kata menjadi / tanggal
         tggl = datetime.date(2030, 5, 12)
-        task_num = re.findall(re_task, raw_string.lower())
-        id = re.findall(re_id, task_num[0])
+        
         time_now = datetime.date.today()
 
         # jika tanggal deadline baru sebelum tanggal saat ini
