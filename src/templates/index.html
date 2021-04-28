@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 <div class = "header">
-    <h1>{{response}}</h1>
+    <h1>roBOT</h1>
     <h2>Your Personal Assistant</h2>
 </div>
 <div class="box center">
@@ -30,9 +30,6 @@
 <form method="GET" id="myForm" name="myForm">
     <textarea name="message" id="message" cols="30" rows="10" placeholder="Masukkan perintah di sini" form="myForm"></textarea>
 </form>
-<script type="text/javascript">
-    var getresponse = "{{ response }}"
-</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="static/script/script.js"></script>
 {% endblock %}
