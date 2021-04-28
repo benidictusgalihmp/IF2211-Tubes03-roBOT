@@ -13,5 +13,7 @@
     {"kw":["bulan"], "pre":["_d+"], "pos":["ke depan"]},
     {"kw":["ganti"], "pre":[], "pos":[]},
     {"kw":["ubah"], "pre":[], "pos":[]},
-    {"kw":["undur"], "pre":[], "pos":[]}
+    {"kw":["undur"], "pre":[], "pos":[]},
+    {"kw":["baru"], "pre":[], "pos":[]},
+    {"kw":["baharu"], "pre":[], "pos":[]}
 ]
